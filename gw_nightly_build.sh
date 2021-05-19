@@ -134,4 +134,8 @@ EOF
    rm -f email.txt
    exit $ERR
 
+#If everything went OK, then delete the test build directory
+else
+   cd $HOMEDIR
+   rm -rf $GW_ROOT_PATH
 fi
