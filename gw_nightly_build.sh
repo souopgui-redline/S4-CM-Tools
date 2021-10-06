@@ -3,19 +3,82 @@
 #Purpose: Clone and build the global workflow and report any issues via email.  Intended to run nightly via cron.
 #Author: David Huber (dhuber@redlineperf.com)
 #Date: 5/19/2021
+
+die() { echo "$@" >&2; exit 1; }
+usage() {
+  set +x
+  echo
+  echo "Usage: $0 -p | -b | -c | -n | -h "
+  echo
+  echo "  -p <URL>         URL to global workflow repository (default: git@github.com:DavidHuber-NOAA/global-workflow)"
+  echo "  -b <branch name> Git branch name (default: gfsv16b_port_2_s4)"
+  echo "  -c <script path> Specify a checkout script. If not specified the script in the global-workflow is used."
+  echo "  -n <test name>   Name of the test (default: gw_nightly_build)"
+  echo "  -h               Display this help"
+  echo
+  set -x
+  exit 1
+}
+
+if [ -f /etc/bashrc ]; then
+   . /etc/bashrc
+   source /etc/profile
+fi
+
 set -x
 
 #Defined paths
 export HOMEDIR="/data/users/dhuber"
-export GW_ROOT_PATH="${HOMEDIR}/gw_nightly_build"
-export SOURCE_DIR="${GW_ROOT_PATH}/sorc"
+export TEST_NAME="gw_nightly_build"
 #Repo/branch paths
-export GITHUB_PATH="https://github.com/DavidHuber-NOAA/global-workflow"
+#Set defaults
+export GITHUB_PATH="git@github.com:DavidHuber-NOAA/global-workflow"
 export GW_BRANCH="gfsv16b_port2s4"
+export SPECIFY_CHECKOUT="No"
+#Modify if specified
+while getopts ":p:b:" opt; do
+   case $opt in
+      p)
+         export GITHUB_PATH=$OPTARG
+         ;;
+      b)
+         export GW_BRANCH=$OPTARG
+         ;;
+      c)
+         export CHECKOUT_SCRIPT=$OPTARG
+         if [[ -e $CHECKOUT_SCRIPT ]]; then
+            #Get the full path
+            export CHECKOUT_SCRIPT=`readlink -f $OPTARG`
+         else
+            die "File does not exist: $OPTARG"
+         fi
+         export SPECIFY_CHECKOUT="Yes"
+         ;;
+      n)
+         export TEST_NAME=$OPTARG
+         ;;
+      h)
+         usage
+         ;;
+      \?)
+         usage
+         die "Invalid option: -$opt"
+         ;;
+      :)
+         usage
+         die "Option -$opt requires an argument"
+         ;;
+   esac
+done
+
+#Build directory path names
+export GW_ROOT_PATH="${HOMEDIR}/$TEST_NAME"
+export SOURCE_DIR="${GW_ROOT_PATH}/sorc"
+
 #Notification email address
 export EMAIL_ADDR="dhuber@redlineperf.com"
 #Modules to load
-export COMPILER_MODULES="license_intel/S4 intel/18.0.3"
+export COMPILER_MODULES="license_intel/S4 intel/18.0.4"
 
 #Navigate to the root directory
 cd $HOMEDIR
@@ -53,6 +116,11 @@ cd $GW_ROOT_PATH
 git checkout $GW_BRANCH
 
 cd $SOURCE_DIR
+
+if [[ $SPECIFY_CHECKOUT = "Yes" ]]; then
+   cp $CHECKOUT_SCRIPT checkout.sh
+fi
+
 ./checkout.sh 2>&1 | tee checkout.log
 
 #Check for checkout errors
@@ -138,4 +206,5 @@ EOF
 else
    cd $HOMEDIR
    rm -rf $GW_ROOT_PATH
+   exit 0
 fi
