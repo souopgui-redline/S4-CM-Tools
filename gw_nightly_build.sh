@@ -25,15 +25,15 @@ if [ -f /etc/bashrc ]; then
    source /etc/profile
 fi
 
-set -x
+#set -x
 
 #Defined paths
 export HOMEDIR="/data/users/dhuber"
 export TEST_NAME="gw_nightly_build"
 #Repo/branch paths
 #Set defaults
-export GITHUB_PATH="git@github.com:DavidHuber-NOAA/global-workflow"
-export GW_BRANCH="gfsv16b_port2s4"
+export GITHUB_PATH="git@github.com:NOAA-EMC/global-workflow"
+export GW_BRANCH="develop"
 export SPECIFY_CHECKOUT="No"
 #Modify if specified
 while getopts ":p:b:" opt; do
@@ -77,8 +77,6 @@ export SOURCE_DIR="${GW_ROOT_PATH}/sorc"
 
 #Notification email address
 export EMAIL_ADDR="dhuber@redlineperf.com"
-#Modules to load
-export COMPILER_MODULES="license_intel/S4 intel/18.0.4"
 
 #Navigate to the root directory
 cd $HOMEDIR
@@ -146,7 +144,6 @@ EOF
 fi
 
 #Build the workflow
-module load $COMPILER_MODULES
 cd $SOURCE_DIR
 timeout 10800 ./build_all.sh >& build.log
 
