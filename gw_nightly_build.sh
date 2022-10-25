@@ -8,7 +8,7 @@ die() { echo "$@" >&2; exit 1; }
 usage() {
   set +x
   echo
-  echo "Usage: $0 -p | -b | -c | -n | -h "
+  echo "Usage: $0 -p | -b | -c | -n | -h"
   echo
   echo "  -p <URL>         URL to global workflow repository (default: git@github.com:DavidHuber-NOAA/global-workflow)"
   echo "  -b <branch name> Git branch name (default: gfsv16b_port_2_s4)"
@@ -119,7 +119,7 @@ if [[ $SPECIFY_CHECKOUT = "Yes" ]]; then
    cp $CHECKOUT_SCRIPT checkout.sh
 fi
 
-./checkout.sh 2>&1 | tee checkout.log
+./checkout.sh -g 2>&1 | tee checkout.log
 
 #Check for checkout errors
 ERR=$?
@@ -145,7 +145,7 @@ fi
 
 #Build the workflow
 cd $SOURCE_DIR
-timeout 10800 ./build_all.sh >& build.log
+timeout 10800 ./build_all.sh 2>&1 | tee build.log
 
 #Check for errors
 ERR=$?
@@ -168,7 +168,7 @@ if grep -iq "fatal\|fail\|error\|warning" build.log; then
    echo Found an error in the log file
    log_err=1
    if [[ $ERR -eq 0 ]]; then
-      $ERR=1
+      ERR=1
    fi
 fi
 
