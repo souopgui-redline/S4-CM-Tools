@@ -28,7 +28,7 @@ fi
 #set -x
 
 #Defined paths
-export HOMEDIR="/data/users/dhuber"
+export HOMEDIR="/data/users/isouopgui"
 export TEST_NAME="gw_nightly_build"
 #Repo/branch paths
 #Set defaults
@@ -76,7 +76,7 @@ export GW_ROOT_PATH="${HOMEDIR}/$TEST_NAME"
 export SOURCE_DIR="${GW_ROOT_PATH}/sorc"
 
 #Notification email address
-export EMAIL_ADDR="dhuber@redlineperf.com"
+export EMAIL_ADDR="isouopgui@redlineperf.com"
 
 #Navigate to the root directory
 cd $HOMEDIR
@@ -96,7 +96,7 @@ EOF
 fi
 
 #Clone the repository
-git clone $GITHUB_PATH $GW_ROOT_PATH
+git clone --recursive $GITHUB_PATH $GW_ROOT_PATH
 if [[ $? -ne 0 ]]; then
    message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
    echo $message
@@ -109,43 +109,45 @@ EOF
    exit 2
 fi
 
-#Checkout the branch
-cd $GW_ROOT_PATH
-git checkout $GW_BRANCH
-
-cd $SOURCE_DIR
-
-if [[ $SPECIFY_CHECKOUT = "Yes" ]]; then
-   cp $CHECKOUT_SCRIPT checkout.sh
-fi
-
-./checkout.sh -g 2>&1 | tee checkout.log
-
-#Check for checkout errors
-ERR=$?
-#Check the log for errors as well; treat warnings as errors
-if grep -iq "fatal\|fail\|error\|warning" checkout.log; then
-   if [[ $ERR -eq 0 ]]; then
-      $ERR=1
-   fi
-fi
-
-#Report if there was a problem checking out the repo
-if [[ $ERR -ne 0 ]]; then
-   echo "Failed to checkout the global workflow"
-   cat > email.txt << EOF
-      Subject: Nightly build failure
-      During the nightly build, the script checkout.sh failed to checkout all modules.
-EOF
-   sendmail $EMAIL_ADDR < email.txt
-   rm -f email.txt
-
-   exit $ERR
-fi
+## No need for the following
+## with the recusive cloning
+# #Checkout the branch
+# cd $GW_ROOT_PATH
+# git checkout $GW_BRANCH
+#
+# cd $SOURCE_DIR
+#
+# if [[ $SPECIFY_CHECKOUT = "Yes" ]]; then
+#    cp $CHECKOUT_SCRIPT checkout.sh
+# fi
+#
+# ./checkout.sh -g 2>&1 | tee checkout.log
+#
+# #Check for checkout errors
+# ERR=$?
+# #Check the log for errors as well; treat warnings as errors
+# if grep -iq "fatal\|fail\|error\|warning" checkout.log; then
+#    if [[ $ERR -eq 0 ]]; then
+#       $ERR=1
+#    fi
+# fi
+#
+# #Report if there was a problem checking out the repo
+# if [[ $ERR -ne 0 ]]; then
+#    echo "Failed to checkout the global workflow"
+#    cat > email.txt << EOF
+#       Subject: Nightly build failure
+#       During the nightly build, the script checkout.sh failed to checkout all modules.
+# EOF
+#    sendmail $EMAIL_ADDR < email.txt
+#    rm -f email.txt
+#
+#    exit $ERR
+# fi
 
 #Build the workflow
 cd $SOURCE_DIR
-timeout 10800 ./build_all.sh 2>&1 | tee build.log
+timeout 10800 ./build_all.sh -g 2>&1 | tee build.log
 
 #Check for errors
 ERR=$?
