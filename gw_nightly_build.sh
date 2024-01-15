@@ -92,6 +92,7 @@ if [ -e $GW_ROOT_PATH ]; then
    echo $message
    cat > email.txt << EOF
       Subject: Nightly build failure
+
       $message
 EOF
    ${SEND_CMD} < email.txt
@@ -106,6 +107,7 @@ if [[ $? -ne 0 ]]; then
    echo $message
    cat > email.txt << EOF
       Subject: Nightly build failure
+
       $message
 EOF
    ${SEND_CMD} < email.txt
@@ -141,6 +143,7 @@ fi
 #    echo "Failed to checkout the global workflow"
 #    cat > email.txt << EOF
 #       Subject: Nightly build failure
+#
 #       During the nightly build, the script checkout.sh failed to checkout all modules.
 # EOF
 #    ${SEND_CMD} < email.txt
@@ -184,6 +187,7 @@ if [[ $ERR -ne 0 ]]; then
    echo "One or more builds failed"
    cat > email.txt << EOF
       Subject: Nightly build failure
+
       During the nightly build, one or more programs failed to build.  The log from the build follows.
 EOF
 
