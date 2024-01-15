@@ -91,9 +91,9 @@ if [ -e $GW_ROOT_PATH ]; then
    message="$GW_ROOT_PATH already exists!  Cannot perform nightly build!"
    echo $message
    cat > email.txt << EOF
-      Subject: Nightly build failure
+Subject: Nightly build failure
 
-      $message
+$message
 EOF
    ${SEND_CMD} < email.txt
    rm -f email.txt
@@ -106,9 +106,9 @@ if [[ $? -ne 0 ]]; then
    message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
    echo $message
    cat > email.txt << EOF
-      Subject: Nightly build failure
+Subject: Nightly build failure
 
-      $message
+$message
 EOF
    ${SEND_CMD} < email.txt
    rm -f email.txt
@@ -142,9 +142,9 @@ fi
 # if [[ $ERR -ne 0 ]]; then
 #    echo "Failed to checkout the global workflow"
 #    cat > email.txt << EOF
-#       Subject: Nightly build failure
+# Subject: Nightly build failure
 #
-#       During the nightly build, the script checkout.sh failed to checkout all modules.
+# During the nightly build, the script checkout.sh failed to checkout all modules.
 # EOF
 #    ${SEND_CMD} < email.txt
 #    rm -f email.txt
@@ -186,9 +186,9 @@ if [[ $ERR -ne 0 ]]; then
 
    echo "One or more builds failed"
    cat > email.txt << EOF
-      Subject: Nightly build failure
+Subject: Nightly build failure
 
-      During the nightly build, one or more programs failed to build.  The log from the build follows.
+During the nightly build, one or more programs failed to build.  The log from the build follows.
 EOF
 
    cat build.log >> email.txt
