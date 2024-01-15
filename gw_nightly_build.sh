@@ -80,7 +80,7 @@ export EMAIL_ADDR="isouopgui@redlineperf.com"
 
 #
 
-SEND_CMD="sendmail -F '(<GW> Nightly Build)' ${EMAIL_ADDR}"
+SEND_CMD="sendmail -F '(<GW>Nightly-Build)' ${EMAIL_ADDR}"
 
 #Navigate to the root directory
 cd $HOMEDIR
