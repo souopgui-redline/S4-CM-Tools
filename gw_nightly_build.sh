@@ -78,6 +78,10 @@ export SOURCE_DIR="${GW_ROOT_PATH}/sorc"
 #Notification email address
 export EMAIL_ADDR="isouopgui@redlineperf.com"
 
+#
+
+SEND_CMD="sendmail -F '(<GW> Nightly Build)' ${EMAIL_ADDR}"
+
 #Navigate to the root directory
 cd $HOMEDIR
 
@@ -90,7 +94,7 @@ if [ -e $GW_ROOT_PATH ]; then
       Subject: Nightly build failure
       $message
 EOF
-   sendmail $EMAIL_ADDR < email.txt
+   ${SEND_CMD} < email.txt
    rm -f email.txt
    exit 1
 fi
@@ -104,7 +108,7 @@ if [[ $? -ne 0 ]]; then
       Subject: Nightly build failure
       $message
 EOF
-   sendmail $EMAIL_ADDR < email.txt
+   ${SEND_CMD} < email.txt
    rm -f email.txt
    exit 2
 fi
@@ -139,7 +143,7 @@ fi
 #       Subject: Nightly build failure
 #       During the nightly build, the script checkout.sh failed to checkout all modules.
 # EOF
-#    sendmail $EMAIL_ADDR < email.txt
+#    ${SEND_CMD} < email.txt
 #    rm -f email.txt
 #
 #    exit $ERR
@@ -196,8 +200,7 @@ EOF
    if [[ $script_err -ne 0 ]] ; then
       echo "<A problem occurred with the build script>" >> email.txt
    fi
-
-   sendmail $EMAIL_ADDR < email.txt
+   ${SEND_CMD} < email.txt
    rm -f email.txt
    exit $ERR
 
