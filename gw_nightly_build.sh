@@ -10,7 +10,7 @@ usage() {
   echo
   echo "Usage: $0 -p | -b | -c | -n | -h"
   echo
-  echo "  -p <URL>         URL to global workflow repository (default: git@github.com:DavidHuber-NOAA/global-workflow)"
+  echo "  -p <URL>         URL to global workflow repository (default: git@github.com:NOAA-EMC/global-workflow)"
   echo "  -b <branch name> Git branch name (default: gfsv16b_port_2_s4)"
   echo "  -c <script path> Specify a checkout script. If not specified the script in the global-workflow is used."
   echo "  -n <test name>   Name of the test (default: gw_nightly_build)"
@@ -101,7 +101,7 @@ EOF
 fi
 
 #Clone the repository
-git clone --recursive $GITHUB_PATH $GW_ROOT_PATH
+git clone --recurse-submodules $GITHUB_PATH $GW_ROOT_PATH
 if [[ $? -ne 0 ]]; then
    message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
    echo $message
@@ -211,6 +211,6 @@ EOF
 #If everything went OK, then delete the test build directory
 else
    cd $HOMEDIR
-   rm -rf $GW_ROOT_PATH
+   rm -rf ${GW_ROOT_PATH}
    exit 0
 fi
