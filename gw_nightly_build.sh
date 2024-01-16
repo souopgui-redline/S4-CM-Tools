@@ -33,6 +33,7 @@ export TEST_NAME="gw_nightly_build"
 #Repo/branch paths
 #Set defaults
 export GITHUB_PATH="git@github.com:NOAA-EMC/global-workflow"
+export GITHUB_PATH="https://github.com/NOAA-EMC/global-workflow"
 export GW_BRANCH="develop"
 export SPECIFY_CHECKOUT="No"
 #Modify if specified
@@ -102,6 +103,7 @@ fi
 
 #Clone the repository
 git clone --recurse-submodules $GITHUB_PATH $GW_ROOT_PATH
+git clone --recursive  $GITHUB_PATH $GW_ROOT_PATH
 if [[ $? -ne 0 ]]; then
    message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
    echo $message
