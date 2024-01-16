@@ -102,7 +102,7 @@ EOF
 fi
 
 #Clone the repository
-git clone --recurse-submodules $GITHUB_PATH $GW_ROOT_PATH
+# git clone --recurse-submodules $GITHUB_PATH $GW_ROOT_PATH
 git clone --recursive  $GITHUB_PATH $GW_ROOT_PATH
 if [[ $? -ne 0 ]]; then
    message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
