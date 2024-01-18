@@ -156,6 +156,13 @@ fi
 #    exit $ERR
 # fi
 
+# content of the replacement script
+REPLACEMENT_SCRIPT="${0}/replace.sh"
+# replace files that need replacement
+if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
+   ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
+fi
+
 #Build the workflow
 cd $SOURCE_DIR
 timeout 10800 ./build_all.sh -g 2>&1 | tee build.log
