@@ -143,7 +143,7 @@ ls -lh ${REPLACEMENT_SCRIPT}
    ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
 #fi
 
-exit
+# exit
 
 #Build the workflow
 cd $SOURCE_DIR
