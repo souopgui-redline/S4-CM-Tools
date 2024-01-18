@@ -20,6 +20,17 @@ usage() {
   exit 1
 }
 
+get_abs_dirname() {
+  # get the path to the absolute directory of a given file (relative path)
+  # $1 : relative filename
+  _here=$(PWD)
+
+  echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  cd ${_here}
+}
+
+SCRIPT_DIR=$(get_abs_dirname "${0}")
+
 if [ -f /etc/bashrc ]; then
    . /etc/bashrc
    source /etc/profile
@@ -121,10 +132,9 @@ cd $HOMEDIR
 
 # content of the replacement script
 
-THIS_DIR=$(dirname "${0}")
-REPLACEMENT_SCRIPT=${THIS_DIR}/replace.sh
-printf "THIS_DIR = ${THIS_DIR} \n"
-ls ${THIS_DIR}
+REPLACEMENT_SCRIPT=${SCRIPT_DIR}/replace.sh
+printf "SCRIPT_DIR = ${SCRIPT_DIR} \n"
+ls ${SCRIPT_DIR}
 printf "REPLACEMENT_SCRIPT = ${REPLACEMENT_SCRIPT} \n"
 ls -lh ${REPLACEMENT_SCRIPT}
 
