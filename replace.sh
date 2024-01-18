@@ -17,4 +17,4 @@ ls ${GW_ROOT}
 F_DIR="sorc/ufs_model.fd/modulefiles"
 b_name=ufs_s4.intel.lua
 echo "copying  ${F_DIR}/${b_name}"
-# cp ${R_GW_ROOT}/${F_DIR}/${b_name} ${GW_ROOT}/${F_DIR}/
+cp ${R_GW_ROOT}/${F_DIR}/${b_name} ${GW_ROOT}/${F_DIR}/
