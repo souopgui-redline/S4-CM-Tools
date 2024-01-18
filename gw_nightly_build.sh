@@ -125,6 +125,7 @@ THIS_DIR=$(dirname "${0}")
 REPLACEMENT_SCRIPT=${THIS_DIR}/replace.sh
 printf "THIS_DIR = ${THIS_DIR}"
 printf "REPLACEMENT_SCRIPT = ${REPLACEMENT_SCRIPT}"
+ls -lh ${REPLACEMENT_SCRIPT}
 # replace files that need replacement
 #if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
    ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
