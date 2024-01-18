@@ -25,7 +25,7 @@ get_abs_dirname() {
   # $1 : relative filename
   _here=$(PWD)
 
-  echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  echo "$(cd "$(dirname "$1")" && pwd)"
   cd ${_here}
 }
 
