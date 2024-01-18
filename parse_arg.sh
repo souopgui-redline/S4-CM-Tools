@@ -102,7 +102,7 @@ assign_positional_args 1 "${_positionals[@]}"
 
 # vvv  PLACE YOUR CODE HERE  vvv
 # For example:
-printf "Value of '%s': %s\\n" 'path' "$_arg_path"
+# printf "Value of '%s': %s\\n" 'path' "$_arg_path"
 
 # ^^^  TERMINATE YOUR CODE BEFORE THE BOTTOM ARGBASH MARKER  ^^^
 
