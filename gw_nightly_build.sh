@@ -157,7 +157,9 @@ fi
 # fi
 
 # content of the replacement script
-REPLACEMENT_SCRIPT="${0}/replace.sh"
+
+THIS_DIR=$(dirname "${0}")
+REPLACEMENT_SCRIPT=${THIS_DIR}/replace.sh
 # replace files that need replacement
 #if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
    ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
