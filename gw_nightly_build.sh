@@ -159,9 +159,9 @@ fi
 # content of the replacement script
 REPLACEMENT_SCRIPT="${0}/replace.sh"
 # replace files that need replacement
-if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
+#if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
    ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
-fi
+#fi
 
 #Build the workflow
 cd $SOURCE_DIR
