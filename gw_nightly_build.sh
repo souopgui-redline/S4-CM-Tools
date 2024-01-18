@@ -142,8 +142,9 @@ ls -lh ${REPLACEMENT_SCRIPT}
 #if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
    ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
 #fi
-
-# exit
+cd $SOURCE_DIR
+./build_ufs.sh
+exit
 
 #Build the workflow
 cd $SOURCE_DIR
