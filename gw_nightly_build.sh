@@ -204,6 +204,16 @@ EOF
 
 #If everything went OK, then delete the test build directory
 else
+
+   cat > email.txt << EOF
+Subject: Nightly build success
+
+Successful Nightly build
+EOF
+   cat build.log >> email.txt
+   ${SEND_CMD} < email.txt
+   rm -f email.txt
+
    cd $HOMEDIR
    rm -rf ${GW_ROOT_PATH}
    exit 0
