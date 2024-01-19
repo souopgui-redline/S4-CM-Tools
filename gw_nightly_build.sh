@@ -97,38 +97,38 @@ SEND_CMD="sendmail -F '(<GW>Nightly-Build)' ${EMAIL_ADDR}"
 #Navigate to the root directory
 cd $HOMEDIR
 
-# #Check if the nightly build folder exists (indicates yesterday's attempt failed)
-# if [ -e $GW_ROOT_PATH ]; then
-#    #Send out an email if the directory already exists
-#    message="$GW_ROOT_PATH already exists!  Cannot perform nightly build!"
-#    echo $message
-#    cat > email.txt << EOF
-# Subject: Nightly build failure
-#
-# $message
-# EOF
-#    ${SEND_CMD} < email.txt
-#    rm -f email.txt
-#    exit 1
-# fi
-#
-# #Clone the repository
-# # git clone --recurse-submodules $GITHUB_PATH $GW_ROOT_PATH
-# # load git module to have a newer version of git
-# module load git
-# git clone --recursive  $GITHUB_PATH $GW_ROOT_PATH
-# if [[ $? -ne 0 ]]; then
-#    message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
-#    echo $message
-#    cat > email.txt << EOF
-# Subject: Nightly build failure
-#
-# $message
-# EOF
-#    ${SEND_CMD} < email.txt
-#    rm -f email.txt
-#    exit 2
-# fi
+#Check if the nightly build folder exists (indicates yesterday's attempt failed)
+if [ -e $GW_ROOT_PATH ]; then
+   #Send out an email if the directory already exists
+   message="$GW_ROOT_PATH already exists!  Cannot perform nightly build!"
+   echo $message
+   cat > email.txt << EOF
+Subject: Nightly build failure
+
+$message
+EOF
+   ${SEND_CMD} < email.txt
+   rm -f email.txt
+   exit 1
+fi
+
+#Clone the repository
+# git clone --recurse-submodules $GITHUB_PATH $GW_ROOT_PATH
+# load git module to have a newer version of git
+module load git
+git clone --recursive  $GITHUB_PATH $GW_ROOT_PATH
+if [[ $? -ne 0 ]]; then
+   message="Failed to checkout $GITHUB_PATH to $GW_ROOT_PATH, aborting nightly build!"
+   echo $message
+   cat > email.txt << EOF
+Subject: Nightly build failure
+
+$message
+EOF
+   ${SEND_CMD} < email.txt
+   rm -f email.txt
+   exit 2
+fi
 
 # content of the replacement script
 
@@ -142,9 +142,9 @@ ls -lh ${REPLACEMENT_SCRIPT}
 #if [[ -f ${REPLACEMENT_SCRIPT} ]] ; then
    ${REPLACEMENT_SCRIPT} "${GW_ROOT_PATH}"
 #fi
-cd $SOURCE_DIR
-./build_ufs.sh
-exit
+# cd $SOURCE_DIR
+# ./build_ufs.sh
+# exit
 
 #Build the workflow
 cd $SOURCE_DIR
