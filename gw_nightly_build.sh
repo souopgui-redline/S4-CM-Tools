@@ -29,12 +29,12 @@ get_abs_dirname() {
   cd ${_here}
 }
 
-SCRIPT_DIR=$(get_abs_dirname "${0}")
-
 if [ -f /etc/bashrc ]; then
    . /etc/bashrc
    source /etc/profile
 fi
+
+SCRIPT_DIR=$(get_abs_dirname "${0}")
 
 #set -x
 
