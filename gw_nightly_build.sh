@@ -23,7 +23,7 @@ usage() {
 get_abs_dirname() {
   # get the path to the absolute directory of a given file (relative path)
   # $1 : relative filename
-  _here=$(PWD)
+  _here=$(pwd)
 
   echo "$(cd "$(dirname "$1")" && pwd)"
   cd ${_here}
