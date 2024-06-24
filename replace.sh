@@ -14,7 +14,8 @@ printf "GW_ROOT is ${GW_ROOT}\n"
 printf "ls GW_ROOT --------------------\n"
 ls ${GW_ROOT}
 # ==================== s4 module file for ufs_model.fd
-F_DIR="sorc/ufs_model.fd/modulefiles"
-b_name=ufs_s4.intel.lua
-echo "copying  ${F_DIR}/${b_name}"
-cp ${R_GW_ROOT}/${F_DIR}/${b_name} ${GW_ROOT}/${F_DIR}/
+# this replacement is no longer needed
+#F_DIR="sorc/ufs_model.fd/modulefiles"
+#b_name=ufs_s4.intel.lua
+#echo "copying  ${F_DIR}/${b_name}"
+#cp ${R_GW_ROOT}/${F_DIR}/${b_name} ${GW_ROOT}/${F_DIR}/
